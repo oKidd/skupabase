@@ -16,7 +16,7 @@ Addon de Skript para ejecutar queries SQL contra Supabase/Postgres desde Minecra
 
 Pulsa el botón verde `Connect`.
 
-![Paso 1 - Connect](https://i.imgur.com/piMqrBM.png)
+![Paso 1 - Connect](https://i.imgur.com/pqe4NRL.png)
 
 ### Paso 2
 
