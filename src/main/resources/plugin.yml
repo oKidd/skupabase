@@ -1,0 +1,7 @@
+name: Skupabase
+version: 0.1.0
+main: me.felipe.skupabase.SkupabasePlugin
+api-version: '1.20'
+softdepend:
+  - Skript
+description: Skript addon for running Supabase/Postgres queries from scripts.

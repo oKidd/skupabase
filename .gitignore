@@ -1,0 +1,30 @@
+# Build outputs
+/build/
+/dist/
+/out/
+/server/
+
+# Temporary extraction folders
+/tmp-pgjdbc/
+/META-INF/
+
+# Local dependency jars
+/*.jar
+
+# IDE files
+/.idea/
+/*.iml
+/.vscode/
+
+# OS files
+/.DS_Store
+/Thumbs.db
+
+# Gradle
+/.gradle/
+/gradle/
+/gradlew
+/gradlew.bat
+
+# Libraries
+/libs/
