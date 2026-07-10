@@ -1,97 +1,80 @@
 # Skupabase
 
-Addon de Skript para ejecutar queries SQL contra Supabase/Postgres desde Minecraft.
+A Skript addon for running SQL queries against Supabase/Postgres from Minecraft.
 
-## Instalación
+## Installation
 
-1. Copia `skupabase-0.1.0.jar` a `plugins/`.
-2. Instala `Skript`.
-3. Inicia el servidor una vez.
-4. Configura `plugins/Skupabase/config.yml`.
-5. Reinicia el servidor.
+1. Copy `skupabase-0.1.0.jar` into your server's `plugins/` folder.
+2. Install `Skript`.
+3. Start the server once.
+4. Configure `plugins/Skupabase/config.yml`.
+5. Restart the server.
 
-## Supabase: paso a paso
+## Supabase setup
 
-### Paso 1
+### Step 1
 
-Pulsa el botón verde `Connect`.
+Click the green `Connect` button.
 
-![Paso 1 - Connect](https://i.imgur.com/pqe4NRL.png)
+### Step 2
 
-### Paso 2
-
-Selecciona:
+Select:
 
 - `Direct: Connection String`
 - `Connection Method`: `Session pooler`
 - `Type`: `JDBC`
 
-![Paso 2 - Connection method](https://i.imgur.com/GEB5IeN.png)
+### Step 3
 
-### Paso 3
+Scroll down to `Connection string` and copy it.
 
-Baja hasta `Connection string` y cópiala.
+- Avoid copying a URL that already includes the password.
+- If you do not know the database password, use `Reset password`.
 
-- Evita copiar una URL que ya lleve la contraseña.
-- Si no sabes la contraseña, usa `Reset password`.
+### Step 4
 
-![Paso 3 - Connection string](https://i.imgur.com/1T1YFfH.png)
+Fill in `plugins/Skupabase/config.yml`.
 
-### Paso 4
-
-Rellena `plugins/Skupabase/config.yml`.
-
-Ejemplo:
+Example:
 
 ```yml
 jdbc-url: "jdbc:postgresql://aws-1-sa-east-1.pooler.supabase.com:5432/postgres?user=postgres.jftqytycpvjjcjacojyd"
 username: "postgres.jftqytycpvjjcjacojyd"
-password: "tu_password"
+password: "your_password"
 connect-timeout-seconds: 10
 query-timeout-seconds: 30
 max-result-rows: 500
 ```
 
-## Uso
+## Usage
 
-### Ejecutar query
+### Run a query
 
 ```skript
 set {_id} to supabase query "select * from public.players"
 ```
 
-### Ver estado
+### Check status
 
 ```skript
 send "%supabase query status {_id}%"
 ```
 
-### Ver resultado
+### Read the result
 
 ```skript
 send "%supabase query result {_id}%"
 ```
 
-### Ejecutar sin guardar ID
+### Run without keeping the ID
 
 ```skript
 run supabase query "update public.players set coins = coins + 10 where uuid = '...'"
 ```
 
-## Ejemplo rápido
-
-```skript
-command /sbtest:
-    trigger:
-        set {_id} to supabase query "select now() as server_time"
-        wait 20 ticks
-        send "%supabase query status {_id}%"
-        send "%supabase query result {_id}%"
-```
-
 ## Mini tutorial
 
-### Crear tabla
+### Create table
 
 ```skript
 command /create_table:
@@ -146,18 +129,3 @@ command /delete:
         send "%supabase query result {_id}%"
 ```
 
-## Build
-
-El jar compilado queda en:
-
-```text
-dist/skupabase-0.1.0.jar
-```
-
-## Imágenes
-
-Guarda las capturas en:
-
-```text
-docs/images/
-```
