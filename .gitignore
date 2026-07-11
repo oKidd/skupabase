@@ -46,4 +46,4 @@
 /libs/
 **/libs/
 
-**/build.gradle
+/*.ps1
