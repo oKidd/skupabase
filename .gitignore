@@ -3,6 +3,7 @@
 /dist/
 /out/
 /server/
+.deps/
 
 # Temporary extraction folders
 /tmp-pgjdbc/
@@ -28,5 +29,3 @@
 
 # Libraries
 /libs/
-
-/*.java

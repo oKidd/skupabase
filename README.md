@@ -4,11 +4,12 @@ A Skript addon for running SQL queries against Supabase/Postgres from Minecraft.
 
 ## Installation
 
-1. Copy `skupabase-0.1.0.jar` into your server's `plugins/` folder.
-2. Install `Skript`.
-3. Start the server once.
-4. Configure `plugins/Skupabase/config.yml`.
-5. Restart the server.
+1. Run `.\build.ps1`.
+2. Copy `build\skupabase-0.1.0.jar` into your server's `plugins/` folder.
+3. Install `Skript`.
+4. Start the server once.
+5. Configure `plugins/Skupabase/config.yml`.
+6. Restart the server.
 
 ## Supabase setup
 
