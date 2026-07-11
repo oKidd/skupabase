@@ -2,10 +2,16 @@
 
 A Skript addon for running SQL queries against Supabase/Postgres from Minecraft.
 
+## Optional dependency
+
+If you want to convert query results from JSON into lists in Skript, install `JSkone`:
+
+[JSkone on SpigotMC](https://www.spigotmc.org/resources/jskone.136964/)
+
 ## Installation
 
 1. Run `.\build.ps1`.
-2. Copy `build\skupabase-0.1.0.jar` into your server's `plugins/` folder.
+2. Copy `build\libs\skupabase-0.1.0.jar` into your server's `plugins/` folder.
 3. Install `Skript`.
 4. Start the server once.
 5. Configure `plugins/Skupabase/config.yml`.
