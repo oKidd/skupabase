@@ -1,14 +1,15 @@
-package me.felipe.skupabase.skript.expressions;
+package me.okidd.skupabase.skript.effects;
 
 import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
+import ch.njol.skript.lang.Effect;
+import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import me.felipe.skupabase.supabase.QueryJob;
-import me.felipe.skupabase.supabase.SupabaseService;
+import me.okidd.skupabase.supabase.QueryJob;
+import me.okidd.skupabase.supabase.SupabaseService;
 import org.bukkit.event.Event;
 
-public final class ExprSupabaseSubmitQuery extends SimpleExpression<String> {
+public final class EffSupabaseExecute extends Effect {
     private static volatile SupabaseService service;
     private Expression<String> sql;
 
@@ -23,34 +24,23 @@ public final class ExprSupabaseSubmitQuery extends SimpleExpression<String> {
     }
 
     @Override
-    protected String[] get(Event event) {
+    protected void execute(Event event) {
         SupabaseService current = service;
         if (current == null) {
-            return new String[0];
+            return;
         }
 
         String query = sql.getSingle(event);
         if (query == null || query.isBlank()) {
-            return new String[0];
+            return;
         }
 
-        QueryJob job = current.submit(query);
-        return new String[]{job.id()};
-    }
-
-    @Override
-    public Class<? extends String> getReturnType() {
-        return String.class;
-    }
-
-    @Override
-    public boolean isSingle() {
-        return true;
+        current.submit(query);
     }
 
     @Override
     public String toString(Event event, boolean debug) {
-        return "supabase query " + sql.toString(event, debug);
+        return "run supabase query " + sql.toString(event, debug);
     }
 
     @Override

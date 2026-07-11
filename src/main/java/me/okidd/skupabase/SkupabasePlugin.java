@@ -1,10 +1,10 @@
-package me.felipe.skupabase;
+package me.okidd.skupabase;
 
 import ch.njol.skript.Skript;
 import org.bukkit.plugin.java.JavaPlugin;
-import me.felipe.skupabase.skript.SkriptSyntaxRegistrar;
-import me.felipe.skupabase.supabase.SupabaseConfig;
-import me.felipe.skupabase.supabase.SupabaseService;
+import me.okidd.skupabase.skript.SkriptSyntaxRegistrar;
+import me.okidd.skupabase.supabase.SupabaseConfig;
+import me.okidd.skupabase.supabase.SupabaseService;
 
 public final class SkupabasePlugin extends JavaPlugin {
     private SupabaseService supabaseService;

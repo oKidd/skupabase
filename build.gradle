@@ -3,8 +3,8 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
-group = 'me.felipe'
-version = '0.1.0'
+group = 'me.okidd'
+version = '0.1.1'
 
 java {
     toolchain {
@@ -14,17 +14,21 @@ java {
 
 repositories {
     mavenCentral()
-    maven {
-        url = uri('https://repo.papermc.io/repository/maven-public/')
-    }
-    maven {
-        url = uri('https://repo.skriptlang.org/releases')
+    flatDir {
+        dirs '.'
+        dirs '../server/libraries/com/google/code/gson/gson/2.10.1'
+        dirs '../server/plugins'
+        dirs '../server/libraries/io/papermc/paper/paper-api/1.20.4-R0.1-SNAPSHOT'
     }
 }
 
 dependencies {
-    compileOnly 'io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT'
-    compileOnly 'com.github.SkriptLang:Skript:2.15.4'
+    compileOnly files(
+            '../server/libraries/io/papermc/paper/paper-api/1.20.4-R0.1-SNAPSHOT/paper-api-1.20.4-R0.1-SNAPSHOT.jar',
+            '../server/libraries/net/kyori/adventure-api/4.16.0/adventure-api-4.16.0.jar',
+            'Skript-2.12.2.jar',
+            '../server/libraries/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar'
+    )
     implementation 'org.postgresql:postgresql:42.7.4'
 }
 
@@ -33,12 +37,20 @@ tasks.withType(JavaCompile).configureEach {
     options.release = 21
 }
 
+def runtimeClasspathConfig = project.configurations.runtimeClasspath
+
 tasks.jar {
     enabled = false
 }
 
 tasks.shadowJar {
     archiveClassifier.set('')
+    from({
+        def postgres = runtimeClasspathConfig.resolvedConfiguration.resolvedArtifacts.find {
+            it.moduleVersion.id.group == 'org.postgresql' && it.name == 'postgresql'
+        }
+        postgres == null ? [] : zipTree(postgres.file)
+    })
 }
 
 tasks.assemble {

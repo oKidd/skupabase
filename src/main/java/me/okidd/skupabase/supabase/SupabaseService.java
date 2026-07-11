@@ -1,4 +1,4 @@
-package me.felipe.skupabase.supabase;
+package me.okidd.skupabase.supabase;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,6 +20,7 @@ public final class SupabaseService {
     private final SupabaseConfig config;
     private final ExecutorService executor;
     private final Map<String, QueryJob> jobs = new ConcurrentHashMap<>();
+    private volatile QueryJob lastJob;
 
     public SupabaseService(JavaPlugin plugin, SupabaseConfig config) {
         this.plugin = plugin;
@@ -45,6 +46,7 @@ public final class SupabaseService {
         String id = UUID.randomUUID().toString();
         QueryJob job = new QueryJob(id, sql);
         jobs.put(id, job);
+        lastJob = job;
 
         executor.submit(() -> runJob(job));
         return job;
@@ -52,6 +54,14 @@ public final class SupabaseService {
 
     public QueryJob getJob(String id) {
         return jobs.get(id);
+    }
+
+    public QueryJob getLastJob() {
+        return lastJob;
+    }
+
+    public JavaPlugin plugin() {
+        return plugin;
     }
 
     public void shutdown() {

@@ -45,3 +45,5 @@
 # Libraries
 /libs/
 **/libs/
+
+**/build.gradle

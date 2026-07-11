@@ -1,14 +1,14 @@
-package me.felipe.skupabase.skript.expressions;
+package me.okidd.skupabase.skript.expressions;
 
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
-import me.felipe.skupabase.supabase.QueryJob;
-import me.felipe.skupabase.supabase.SupabaseService;
+import me.okidd.skupabase.supabase.QueryJob;
+import me.okidd.skupabase.supabase.SupabaseService;
 import org.bukkit.event.Event;
 
-public final class ExprSupabaseQueryStatus extends SimpleExpression<String> {
+public final class ExprSupabaseQueryResult extends SimpleExpression<String> {
     private static volatile SupabaseService service;
     private Expression<String> queryId;
 
@@ -30,15 +30,17 @@ public final class ExprSupabaseQueryStatus extends SimpleExpression<String> {
         }
 
         String id = queryId.getSingle(event);
-        if (id == null || id.isBlank()) {
+        QueryJob job = null;
+        if (id != null && !id.isBlank()) {
+            job = current.getJob(id);
+        }
+        if (job == null) {
+            job = current.getLastJob();
+        }
+        if (job == null || !job.isDone() || job.result() == null) {
             return new String[0];
         }
-
-        QueryJob job = current.getJob(id);
-        if (job == null) {
-            return new String[]{"missing"};
-        }
-        return new String[]{job.state().name().toLowerCase()};
+        return new String[]{job.result()};
     }
 
     @Override
@@ -53,11 +55,11 @@ public final class ExprSupabaseQueryStatus extends SimpleExpression<String> {
 
     @Override
     public String toString(Event event, boolean debug) {
-        return "supabase query status " + queryId.toString(event, debug);
+        return "supabase query result " + queryId.toString(event, debug);
     }
 
     @Override
     public String getSyntaxTypeName() {
-        return "supabase query status";
+        return "supabase query result";
     }
 }

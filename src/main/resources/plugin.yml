@@ -1,6 +1,6 @@
 name: Skupabase
-version: 0.1.0
-main: me.felipe.skupabase.SkupabasePlugin
+version: 0.1.1
+main: me.okidd.skupabase.SkupabasePlugin
 api-version: '1.20'
 softdepend:
   - Skript

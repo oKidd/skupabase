@@ -1,4 +1,6 @@
-package me.felipe.skupabase.supabase;
+package me.okidd.skupabase.supabase;
+
+import java.util.concurrent.CompletableFuture;
 
 public final class QueryJob {
     public enum State {
@@ -15,6 +17,7 @@ public final class QueryJob {
     private volatile String error;
     private volatile long submittedAt;
     private volatile long completedAt;
+    private final CompletableFuture<QueryJob> completion = new CompletableFuture<>();
 
     public QueryJob(String id, String sql) {
         this.id = id;
@@ -55,6 +58,10 @@ public final class QueryJob {
         return state == State.SUCCESS || state == State.ERROR;
     }
 
+    public CompletableFuture<QueryJob> completion() {
+        return completion;
+    }
+
     void markRunning() {
         this.state = State.RUNNING;
     }
@@ -63,11 +70,13 @@ public final class QueryJob {
         this.state = State.SUCCESS;
         this.result = result;
         this.completedAt = System.currentTimeMillis();
+        completion.complete(this);
     }
 
     void markError(String error) {
         this.state = State.ERROR;
         this.error = error;
         this.completedAt = System.currentTimeMillis();
+        completion.complete(this);
     }
 }

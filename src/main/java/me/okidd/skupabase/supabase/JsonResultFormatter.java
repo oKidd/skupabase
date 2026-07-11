@@ -1,4 +1,4 @@
-package me.felipe.skupabase.supabase;
+package me.okidd.skupabase.supabase;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;

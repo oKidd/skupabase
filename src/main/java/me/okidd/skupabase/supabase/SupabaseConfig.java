@@ -1,4 +1,4 @@
-package me.felipe.skupabase.supabase;
+package me.okidd.skupabase.supabase;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
