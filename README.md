@@ -10,12 +10,11 @@ If you want to convert query results from JSON into lists in Skript, install `JS
 
 ## Installation
 
-1. Run `.\build.ps1`.
-2. Copy `build\libs\skupabase-0.1.1.jar` into your server's `plugins/` folder.
-3. Install `Skript`.
-4. Start the server once.
-5. Configure `plugins/Skupabase/config.yml`.
-6. Restart the server.
+1. Copy `skupabase.jar` into your server's `plugins/` folder.
+2. Install `Skript`.
+3. Start the server once.
+4. Configure `plugins/Skupabase/config.yml`.
+5. Restart the server.
 
 ## Supabase setup
 
