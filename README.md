@@ -14,29 +14,23 @@ A Skript addon for running SQL queries against Supabase/Postgres from Minecraft.
 
 ### Step 1
 
-Click the green `Connect` button.
-![Step 1 - Connect](https://i.imgur.com/pqe4NRL.png)
+Click the green `Connect` button, open the connection sheet, choose `Direct: Connection String`, then set `Connection Method` to `Session pooler` and `Type` to `JDBC`.
 
-### Step 2
+![Supabase setup step 1](https://i.imgur.com/8I18Oxc.gif)
 
-Select:
-
-- `Direct: Connection String`
-- `Connection Method`: `Session pooler`
-- `Type`: `JDBC`
-
-![Step 2 - Connection method](https://i.imgur.com/GEB5IeN.png)
+Copy `host`, `port`, `database` and `user` into `config.yml`.
 
 ### Step 3
 
-Scroll down to `Connection string` and copy it.
+If you do not know the password, use `Reset password`, generate a new one, copy it, and save it.
 
-- Use the JDBC string exactly as Supabase gives it to you.
-- If you do not know the database password, use `Reset password`.
-
-![Step 3 - Connection string](https://i.imgur.com/1T1YFfH.png)
+![Supabase setup step 2](https://i.imgur.com/3I2zae9.gif)
 
 ### Step 4
+
+Open the same `Connect` sheet again, choose `Server: Build APIs`, then copy `SUPABASE_URL` and `SUPABASE_SECRET_KEY` into `config.yml`.
+
+![Supabase setup step 3](https://i.imgur.com/fYn5XMx.gif)
 
 Fill in `plugins/Skupabase/config.yml`.
 
