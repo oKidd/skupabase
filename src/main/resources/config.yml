@@ -1,12 +1,18 @@
-# Direct JDBC connection settings for Supabase Postgres.
-# Example:
-# jdbc-url: "jdbc:postgresql://db.<project-ref>.supabase.co:5432/postgres?sslmode=require"
-jdbc-url: ""
-username: ""
+# SQL connection settings.
+host: ""
+port: ""
+database: ""
+user: ""
 password: ""
+
+# Realtime connection settings (optional).
+# Leave these empty if you only want SQL queries.
+SUPABASE_URL: ""
+SUPABASE_SECRET_KEY: ""
+realtime-log-level: "info"
 
 # Optional connection tuning.
 connect-timeout-seconds: 10
 query-timeout-seconds: 30
 max-result-rows: 500
-
+realtime-heartbeat-seconds: 25

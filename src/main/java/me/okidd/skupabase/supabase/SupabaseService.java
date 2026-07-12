@@ -79,26 +79,34 @@ public final class SupabaseService {
         job.markRunning();
 
         if (!config.isConfigured()) {
-            job.markError("Supabase JDBC is not configured. Set jdbc-url, username and password in config.yml.");
+            job.markError("Supabase JDBC is not configured. Set DB_HOST, DB_PORT, DB_NAME, DB_USER and DB_PASSWORD in config.yml.");
             return;
         }
 
-        try (Connection connection = DriverManager.getConnection(config.jdbcUrl(), config.username(), config.password());
-             Statement statement = connection.createStatement()) {
-            statement.setQueryTimeout(config.queryTimeoutSeconds());
-            boolean hasResultSet = statement.execute(job.sql());
+        String jdbcUrl = config.jdbcUrl();
 
-            if (hasResultSet) {
-                try (ResultSet resultSet = statement.getResultSet()) {
-                    job.markSuccess(JsonResultFormatter.toJson(resultSet, config.maxResultRows()));
-                }
-            } else {
-                int updateCount = statement.getUpdateCount();
-                job.markSuccess("{\"updateCount\":" + updateCount + "}");
+        try {
+            try (Connection connection = DriverManager.getConnection(jdbcUrl);
+                 Statement statement = connection.createStatement()) {
+                runStatement(job, statement);
             }
         } catch (Exception e) {
             job.markError(e.getClass().getSimpleName() + ": " + e.getMessage());
             Bukkit.getLogger().warning("[Skupabase] Query failed: " + e.getMessage());
+        }
+    }
+
+    private void runStatement(QueryJob job, Statement statement) throws Exception {
+        statement.setQueryTimeout(config.queryTimeoutSeconds());
+        boolean hasResultSet = statement.execute(job.sql());
+
+        if (hasResultSet) {
+            try (ResultSet resultSet = statement.getResultSet()) {
+                job.markSuccess(JsonResultFormatter.toJson(resultSet, config.maxResultRows()));
+            }
+        } else {
+            int updateCount = statement.getUpdateCount();
+            job.markSuccess("{\"updateCount\":" + updateCount + "}");
         }
     }
 

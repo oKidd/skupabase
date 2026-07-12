@@ -2,12 +2,6 @@
 
 A Skript addon for running SQL queries against Supabase/Postgres from Minecraft.
 
-## Optional dependency
-
-If you want to convert query results from JSON into lists in Skript, install `JSkone`:
-
-[JSkone on SpigotMC](https://www.spigotmc.org/resources/jskone.136964/)
-
 ## Installation
 
 1. Copy `skupabase.jar` into your server's `plugins/` folder.
@@ -37,7 +31,7 @@ Select:
 
 Scroll down to `Connection string` and copy it.
 
-- Avoid copying a URL that already includes the password.
+- Use the JDBC string exactly as Supabase gives it to you.
 - If you do not know the database password, use `Reset password`.
 
 ![Step 3 - Connection string](https://i.imgur.com/1T1YFfH.png)
@@ -49,9 +43,13 @@ Fill in `plugins/Skupabase/config.yml`.
 Example:
 
 ```yml
-jdbc-url: "jdbc:postgresql://aws-1-sa-east-1.pooler.supabase.com:5432/postgres?user=postgres.jftqytycpvjjcjacojyd"
-username: "postgres.jftqytycpvjjcjacojyd"
+host: "aws-1-sa-east-1.pooler.supabase.com"
+port: "5432"
+database: "postgres"
+user: "postgres.jftqytycpvjjcjacojyd"
 password: "your_password"
+SUPABASE_URL: "https://jftqytycpvjjcjacojyd.supabase.co"
+SUPABASE_SECRET_KEY: "sb_secret_..."
 connect-timeout-seconds: 10
 query-timeout-seconds: 30
 max-result-rows: 500
@@ -99,6 +97,75 @@ send "%supabase query result {_id}%"
 
 ```skript
 run supabase query "update public.players set coins = coins + 10 where uuid = '...'"
+```
+
+## Realtime subscriptions
+
+Optional. Configure these values in `plugins/Skupabase/config.yml` only if you want realtime subscriptions:
+
+```yml
+SUPABASE_URL: "https://jftqytycpvjjcjacojyd.supabase.co"
+SUPABASE_SECRET_KEY: "sb_secret_..."
+realtime-log-level: "info"
+realtime-heartbeat-seconds: 25
+```
+
+For SQL queries, the plugin builds the JDBC URL from `host`, `port`, `database`, `user` and `password`.
+
+If Realtime still does not fire, check the plugin console for:
+- `Supabase Realtime websocket open`
+- `Sending realtime join`
+- `Realtime subscription ready`
+
+Supabase Realtime does not log every WebSocket connection by default, so `realtime-log-level: "info"` helps surface the join/debug flow in the server logs.
+
+### Subscribe
+
+Use this in `on load:` or another startup section:
+
+```skript
+set {sub} to subscribe to postgres changes in table "public.skupabase_test" with event "*"
+```
+
+### Unsubscribe on unload
+
+Use `on unload:` to remove the subscription when the script is reloaded or unloaded:
+
+```skript
+on unload:
+    if {sub} is set:
+        unsubscribe postgres subscription {sub}
+```
+
+### Handle the payload
+
+```skript
+on supabase postgres change:
+    broadcast "&7Change received!"
+    broadcast "&7Table: %supabase change table%"
+    broadcast "&7Type: %supabase change type%"
+    broadcast "&7Payload: %supabase change payload%"
+```
+
+### Conditional checks
+
+```skript
+on supabase postgres change:
+    if supabase change table is "skupabase_test":
+        broadcast "&aChange in skupabase_test"
+```
+
+```skript
+on supabase postgres change:
+    if supabase change schema is "public":
+        if supabase change table is "skupabase_test":
+            broadcast "&7Received change for public.skupabase_test"
+```
+
+```skript
+on supabase postgres change:
+    if supabase change type is "INSERT":
+        broadcast "&aNew row inserted"
 ```
 
 ## Mini tutorial
