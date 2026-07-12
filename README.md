@@ -20,13 +20,13 @@ Click the green `Connect` button, open the connection sheet, choose `Direct: Con
 
 Copy `host`, `port`, `database` and `user` into `config.yml`.
 
-### Step 3
+### Step 2
 
 If you do not know the password, use `Reset password`, generate a new one, copy it, and save it.
 
 ![Supabase setup step 2](https://i.imgur.com/3I2zae9.gif)
 
-### Step 4
+### Step 3
 
 Open the same `Connect` sheet again, choose `Server: Build APIs`, then copy `SUPABASE_URL` and `SUPABASE_SECRET_KEY` into `config.yml`.
 
