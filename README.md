@@ -93,6 +93,14 @@ send "%supabase query status {_id}%"
 send "%supabase query result {_id}%"
 ```
 
+### Read a single row
+
+If the query returns exactly one row, this variant returns the row as a JSON object instead of a JSON array.
+
+```skript
+send "%supabase single query result {_id}%"
+```
+
 ### Run without keeping the ID
 
 ```skript

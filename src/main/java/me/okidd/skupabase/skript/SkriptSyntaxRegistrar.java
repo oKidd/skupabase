@@ -35,7 +35,8 @@ public final class SkriptSyntaxRegistrar {
                 "execute supabase query %string%");
 
         Skript.registerExpression(ExprSupabaseQueryResult.class, String.class, ExpressionType.SIMPLE,
-                "supabase query result %string%");
+                "supabase query result %string%",
+                "supabase single query result %string%");
 
         Skript.registerExpression(ExprSupabaseQueryStatus.class, String.class, ExpressionType.SIMPLE,
                 "supabase query status %string%");
