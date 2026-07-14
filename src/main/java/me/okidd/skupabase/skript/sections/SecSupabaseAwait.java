@@ -6,8 +6,10 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.TriggerItem;
 import ch.njol.skript.config.SectionNode;
 import ch.njol.util.Kleenean;
+import ch.njol.skript.effects.Delay;
 import me.okidd.skupabase.supabase.QueryJob;
 import me.okidd.skupabase.supabase.SupabaseService;
+import ch.njol.skript.variables.Variables;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 
@@ -52,7 +54,16 @@ public final class SecSupabaseAwait extends EffectSection {
             return hasSection() ? walk(event, true) : getNext();
         }
 
-        job.completion().thenAccept(completed -> Bukkit.getScheduler().runTask(current.plugin(), () -> TriggerItem.walk(walk(event, true), event)));
+        Delay.addDelayedEvent(event);
+        Object locals = Variables.removeLocals(event);
+        job.completion().thenAccept(completed -> Bukkit.getScheduler().runTask(current.plugin(), () -> {
+            Variables.setLocalVariables(event, locals);
+            try {
+                TriggerItem.walk(walk(event, true), event);
+            } finally {
+                Variables.removeLocals(event);
+            }
+        }));
         return null;
     }
 
